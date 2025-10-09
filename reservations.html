@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservations - Mangilik As</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f9cf15;
+            --secondary-color: #2c3e50;
+            --accent-color: #1294a8;
+            --light-bg: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--light-bg);
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--secondary-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0);
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+
+        .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgb(58, 106, 133), rgb(207, 189, 25)) center/cover;
+            padding: 5rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Reservation Section */
+        .reservation-section {
+            padding: 4rem 0;
+        }
+
+        .reservation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgb(0,0,0);
+        }
+
+        .reservation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .form-section {
+            padding: 3rem;
+        }
+
+        .form-section h2 {
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .time-slot {
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .time-slot:hover {
+            border-color: var(--primary-color);
+            background-color: #fff5f0;
+        }
+
+        .time-slot.selected {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .time-slot.unavailable {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background-color: #f0f0f0;
+        }
+
+        .guest-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .guest-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .guest-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        .guest-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .submit-btn:hover {
+            background-color: #f9cf15;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px #f9cf15;
+        }
+
+        /* Table Layout Visualization */
+        .visual-section {
+            background: linear-gradient(135deg, rgb(58, 106, 133), rgb(207, 189, 25) 100%);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .visual-section h3 {
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .table-layout {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            max-width: 500px;
+        }
+
+        .table-item {
+            background: rgb(116,116,116);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .table-item:hover {
+            background: rgb(116,116,116);
+            transform: scale(1.05);
+        }
+
+        .table-item.occupied {
+            background: rgba(255,0,0);
+            cursor: not-allowed;
+        }
+
+        .table-item.selected {
+            background: rgb(76,175,80);
+            border: 2px solid white;
+        }
+
+        .table-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Info Cards */
+        .info-cards {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+            box-shadow: 0 5px 15px rgb(0,0,0);
+        }
+
+        .info-card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Policies Section */
+        .policies-section {
+            background: white;
+            padding: 3rem;
+            margin: 3rem 0;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgb(0,0,0);
+        }
+
+        .policies-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .policy-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+        }
+
+        .policy-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a252f;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .reservation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-section {
+                padding: 2rem;
+            }
+
+            .table-layout {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .form-section {
+                padding: 2rem;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .table-layout {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .info-cards {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .time-slots {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Mangilik As</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="reservations.html">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="order.html">Order Online</a></li>
+                    <li class="nav-item"><a class="nav-link" href="staff.html">Staff</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Reserve Your Table</h1>
+            <p>Book your dining experience with us</p>
+        </div>
+    </header>
+
+    <!-- Reservation Section -->
+    <section class="reservation-section">
+        <div class="container">
+            <div class="reservation-container">
+                <div class="reservation-grid">
+                    <!-- Form Section -->
+                    <div class="form-section">
+                        <h2>📅 Reservation Details</h2>
+                        <form id="reservationForm">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" class="form-control" placeholder="John Doe" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="+7 (777) 123-4567" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="date">Select Date *</label>
+                                <input type="date" id="date" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Select Time *</label>
+                                <div class="time-slots">
+                                    <div class="time-slot" data-time="11:00">11:00 AM</div>
+                                    <div class="time-slot" data-time="12:00">12:00 PM</div>
+                                    <div class="time-slot unavailable" data-time="13:00">1:00 PM</div>
+                                    <div class="time-slot" data-time="14:00">2:00 PM</div>
+                                    <div class="time-slot" data-time="17:00">5:00 PM</div>
+                                    <div class="time-slot" data-time="18:00">6:00 PM</div>
+                                    <div class="time-slot unavailable" data-time="19:00">7:00 PM</div>
+                                    <div class="time-slot" data-time="20:00">8:00 PM</div>
+                                    <div class="time-slot" data-time="21:00">9:00 PM</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Number of Guests *</label>
+                                <div class="guest-selector">
+                                    <button type="button" class="guest-btn" onclick="changeGuests(-1)">-</button>
+                                    <span class="guest-count" id="guestCount">2</span>
+                                    <button type="button" class="guest-btn" onclick="changeGuests(1)">+</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="requests">Special Requests</label>
+                                <textarea id="requests" class="form-control" rows="3" placeholder="Allergies, dietary restrictions, celebrations..."></textarea>
+                            </div>
+
+                            <button type="submit" class="submit-btn">Confirm Reservation</button>
+                        </form>
+                    </div>
+
+                    <!-- Visual Section -->
+                    <div class="visual-section">
+                        <h3>🪑 Table Selection</h3>
+                        <p>Select your preferred table</p>
+                        <div class="table-layout">
+                            <div class="table-item" data-table="1">
+                                <div class="table-icon">🪑</div>
+                                <div>Table 1</div>
+                                <small>2 seats</small>
+                            </div>
+                            <div class="table-item" data-table="2">
+                                <div class="table-icon">🪑</div>
+                                <div>Table 2</div>
+                                <small>2 seats</small>
+                            </div>
+                            <div class="table-item occupied" data-table="3">
+                                <div class="table-icon">🪑</div>
+                                <div>Table 3</div>
+                                <small>Occupied</small>
+                            </div>
+                            <div class="table-item" data-table="4">
+                                <div class="table-icon">🪑</div>
+                                <div>Table 4</div>
+                                <small>4 seats</small>
+                            </div>
+                            <div class="table-item" data-table="5">
+                                <div class="table-icon">🪑</div>
+                                <div>Table 5</div>
+                                <small>4 seats</small>
+                            </div>
+                            <div class="table-item occupied" data-table="6">
+                                <div class="table-icon">🪑</div>
+                                <div>Table 6</div>
+                                <small>Occupied</small>
+                            </div>
+                            <div class="table-item" data-table="7">
+                                <div class="table-icon">🪑</div>
+                                <div>Table 7</div>
+                                <small>6 seats</small>
+                            </div>
+                            <div class="table-item" data-table="8">
+                                <div class="table-icon">🪑</div>
+                                <div>Table 8</div>
+                                <small>6 seats</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card-icon">⏰</div>
+                    <h4>Quick Confirmation</h4>
+                    <p>Instant booking confirmation via email and SMS</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">🎉</div>
+                    <h4>Special Events</h4>
+                    <p>Perfect for birthdays, anniversaries, and celebrations</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">💳</div>
+                    <h4>No Deposit</h4>
+                    <p>Free reservation with no upfront payment required</p>
+                </div>
+            </div>
+
+            <!-- Policies Section -->
+            <div class="policies-section">
+                <h3>📋 Reservation Policies</h3>
+                <div class="policy-item">
+                    <span class="policy-icon">✓</span>
+                    <div>
+                        <strong>Cancellation Policy:</strong> Free cancellation up to 2 hours before reservation time.
+                    </div>
+                </div>
+                <div class="policy-item">
+                    <span class="policy-icon">✓</span>
+                    <div>
+                        <strong>Late Arrival:</strong> Tables are held for 15 minutes past reservation time.
+                    </div>
+                </div>
+                <div class="policy-item">
+                    <span class="policy-icon">✓</span>
+                    <div>
+                        <strong>Group Reservations:</strong> For parties of 8 or more, please call us directly at +7 (777) 462-7312.
+                    </div>
+                </div>
+                <div class="policy-item">
+                    <span class="policy-icon">✓</span>
+                    <div>
+                        <strong>Special Requests:</strong> We'll do our best to accommodate dietary restrictions and celebration setups.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>📍 29 Satpayev St., Astana, Kazakhstan</p>
+                    <p>📞 +7 (777) 462-7312</p>
+                    <p>✉️ info@mangilikas.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Opening Hours</h4>
+                    <p>Monday - Sunday</p>
+                    <p>11:00 AM - 11:00 PM</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">📷</a>
+                        <a href="#">🐦</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-3 border-top border-secondary">
+                <p>&copy; 2025 Mangilik As. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let guests = 2;
+        let selectedTime = null;
+        let selectedTable = null;
+
+        // Set minimum date to today
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+
+        // Guest counter
+        function changeGuests(amount) {
+            guests += amount;
+            if (guests < 1) guests = 1;
+            if (guests > 12) guests = 12;
+            document.getElementById('guestCount').textContent = guests;
+        }
+
+        // Time slot selection
+        const timeSlots = document.querySelectorAll('.time-slot:not(.unavailable)');
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', function() {
+                timeSlots.forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedTime = this.getAttribute('data-time');
+            });
+        });
+
+        // Table selection
+        const tables = document.querySelectorAll('.table-item:not(.occupied)');
+        tables.forEach(table => {
+            table.addEventListener('click', function() {
+                tables.forEach(t => t.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedTable = this.getAttribute('data-table');
+            });
+        });
+
+        // Form submission
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!selectedTime) {
+                alert('Please select a time slot');
+                return;
+            }
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const date = document.getElementById('date').value;
+            const requests = document.getElementById('requests').value;
+
+            const confirmationMessage = `
+Reservation Confirmed! 🎉
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Date: ${date}
+Time: ${selectedTime}
+Guests: ${guests}
+${selectedTable ? 'Table: ' + selectedTable : ''}
+${requests ? 'Special Requests: ' + requests : ''}
+
+A confirmation email has been sent to ${email}. See you soon!
+            `;
+
+            alert(confirmationMessage);
+            this.reset();
+            timeSlots.forEach(s => s.classList.remove('selected'));
+            tables.forEach(t => t.classList.remove('selected'));
+            guests = 2;
+            document.getElementById('guestCount').textContent = guests;
+        });
+    </script>
+</body>
+</html>

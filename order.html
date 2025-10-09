@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Online - Mangilik As</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f9cf15;
+            --secondary-color: #2c3e50;
+            --accent-color: #1294a8;
+            --light-bg: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--light-bg);
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--secondary-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgb(0,0,0);
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+
+        .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgb(58, 106, 133), rgb(207, 189, 25)) center/cover;
+            padding: 5rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Toggle Section */
+        .toggle-section {
+            background: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0);
+            position: sticky;
+            top: 72px;
+            z-index: 100;
+        }
+
+        .toggle-buttons {
+            display: inline-flex;
+            background: var(--light-bg);
+            border-radius: 50px;
+            padding: 0.3rem;
+        }
+
+        .toggle-btn {
+            padding: 0.8rem 2.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Order Section */
+        .order-section {
+            padding: 3rem 0;
+        }
+
+        .order-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Cart Items */
+        .cart-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgb(0,0,0);
+        }
+
+        .cart-section h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 3px 10px rgb(0,0,0);
+        }
+
+        .item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 0.3rem;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-price {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+
+        .qty-btn {
+            width: 35px;
+            height: 35px;
+            border: 2px solid var(--secondary-color);
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .qty-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .qty-display {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .remove-btn {
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* Customization Options */
+        .customization {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+        }
+
+        .customization label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .customization select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+
+        /* Summary Section */
+        .summary-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgb(0,0,0);
+            position: sticky;
+            top: 170px;
+        }
+
+        .summary-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-row.total {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            border-bottom: none;
+            margin-top: 1rem;
+        }
+
+        /* Delivery Form */
+        .delivery-form {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-option {
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover,
+        .payment-option.selected {
+            border-color: var(--primary-color);
+            background: #fff5f0;
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Order Button */
+        .order-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .order-btn:hover {
+            background: #f9cf15;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px #f9cf15;
+        }
+
+        .order-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .empty-cart-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a252f;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .order-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-section {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .cart-item {
+                flex-direction: column;
+            }
+
+            .item-image {
+                width: 100%;
+                height: 200px;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .toggle-section {
+                top: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .toggle-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Mangilik As</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reservations.html">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="order.html">Order Online</a></li>
+                    <li class="nav-item"><a class="nav-link" href="staff.html">Staff</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Order Online</h1>
+            <p>Get your favorite dishes delivered to your door</p>
+        </div>
+    </header>
+
+    <!-- Toggle Section -->
+    <section class="toggle-section">
+        <div class="toggle-buttons">
+            <button class="toggle-btn active" id="deliveryBtn">🚚 Delivery</button>
+            <button class="toggle-btn" id="pickupBtn">🏃 Pickup</button>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section class="order-section">
+        <div class="container">
+            <div class="order-grid">
+                <!-- Cart Section -->
+                <div class="cart-section">
+                    <h2>
+                        <span>🛒 Your Order</span>
+                        <span style="font-size: 1rem; color: #666;">(<span id="itemCount">5</span> items)</span>
+                    </h2>
+
+                    <div id="cartItems">
+                        <!-- Cart Item 1 -->
+                        <div class="cart-item" data-price="31000.0" data-qty="1">
+                            <img src="besh.jpg" alt="Kazakh Et" class="item-image">
+                            <div class="item-details">
+                                <div class="item-name">Kazakh Et</div>
+                                <div class="item-description">A dish in which the taste of meat and dough tells the story of nomads who gathered their clan to the sounds of the dombra</div>
+                                <div class="item-price">31000 ₸</div>
+                                <div class="customization">
+                                    <label>Size:</label>
+                                    <select>
+                                        <option>Medium </option>
+                                        <option>Large</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                    <span class="qty-display">1</span>
+                                    <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                                </div>
+                                <div style="text-align: center; margin-top: 1rem;">
+                                    <span class="remove-btn" onclick="removeItem(this)">🗑️</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cart Item 2 -->
+                        <div class="cart-item" data-price="4200.0" data-qty="1">
+                            <img src="kuyrdak.jpg" alt="Kuyrdak" class="item-image">
+                            <div class="item-details">
+                                <div class="item-name">Kuyrdak</div>
+                                <div class="item-description">A roast where simple ingredients are transformed into the soul of a Kazakh hearth.</div>
+                                <div class="item-price">4200 ₸</div>
+                                <div class="customization">
+                                    <label>Size</label>
+                                    <select>
+                                        <option>Small</option>
+                                        <option>Medium</option>
+                                        <option>Large</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                    <span class="qty-display">2</span>
+                                    <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                                </div>
+                                <div style="text-align: center; margin-top: 1rem;">
+                                    <span class="remove-btn" onclick="removeItem(this)">🗑️</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cart Item 3 -->
+                        <div class="cart-item" data-price="1060.0" data-qty="1">
+                            <img src="balkaimak.jpeg" alt="Balkaimak" class="item-image">
+                            <div class="item-details">
+                                <div class="item-name">Balkaimak</div>
+                                <div class="item-description">The warm tenderness of cream and honey, like a sunset in a cup.</div>
+                                <div class="item-price">1060 ₸</div>
+                
+                                </div>
+                            </div>
+                            <div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                    <span class="qty-display">1</span>
+                                    <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                                </div>
+                                <div style="text-align: center; margin-top: 1rem;">
+                                    <span class="remove-btn" onclick="removeItem(this)">🗑️</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cart Item 4 -->
+                        <div class="cart-item" data-price="630.0" data-qty="1">
+                            <img src="airan.jpg" alt="Airan" class="item-image">
+                            <div class="item-details">
+                                <div class="item-name">Airan</div>
+                                <div class="item-description">The coolness of a summer afternoon, quenching thirst and calming the heart</div>
+                                <div class="item-price">630 ₸</div>
+                            </div>
+                            <div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                    <span class="qty-display">1</span>
+                                    <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                                </div>
+                                <div style="text-align: center; margin-top: 1rem;">
+                                    <span class="remove-btn" onclick="removeItem(this)">🗑️</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div class="summary-section">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">36890 ₸</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee:</span>
+                        <span id="deliveryFee">0 ₸</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (8%):</span>
+                        <span id="tax">2951,20₸</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="total">39841,20₸</span>
+                    </div>
+
+                    <!-- Delivery Form -->
+                    <form class="delivery-form" id="orderForm">
+                        <h4 style="margin-bottom: 1rem;">📍 Delivery Information</h4>
+                        
+                        <div class="form-group">
+                            <label for="address">Address *</label>
+                            <input type="text" id="address" class="form-control" placeholder="Street address" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="city">City *</label>
+                            <input type="text" id="city" class="form-control" placeholder="City" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="+7 (777) 123-4567" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes">Delivery Notes</label>
+                            <textarea id="notes" class="form-control" rows="2" placeholder="Apartment, floor, etc."></textarea>
+                        </div>
+
+                        <h4 style="margin: 1.5rem 0 1rem;">💳 Payment Method</h4>
+                        <div class="payment-methods">
+                            <div class="payment-option selected">
+                                <div class="payment-icon">💳</div>
+                                <div>Card</div>
+                            </div>
+                            <div class="payment-option">
+                                <div class="payment-icon">💵</div>
+                                <div>Cash</div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="order-btn">Place Order - ₸<span id="finalTotal">39841,2 ₸</span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>📍 29 Satpayev St., Astana, Kazakhstan</p>
+                    <p>📞 +7 (777) 462-7312</p>
+                    <p>✉️ info@mangilikas.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Opening Hours</h4>
+                    <p>Monday - Sunday</p>
+                    <p>11:00 AM - 11:00 PM</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">📷</a>
+                        <a href="#">🐦</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-3 border-top border-secondary">
+                <p>&copy; 2025 Mangilik As. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let isDelivery = true;
+
+        // Toggle between delivery and pickup
+        document.getElementById('deliveryBtn').addEventListener('click', function() {
+            isDelivery = true;
+            this.classList.add('active');
+            document.getElementById('pickupBtn').classList.remove('active');
+            document.getElementById('deliveryFee').textContent = '₸0';
+            updateTotal();
+        });
+
+        document.getElementById('pickupBtn').addEventListener('click', function() {
+            isDelivery = false;
+            this.classList.add('active');
+            document.getElementById('deliveryBtn').classList.remove('active');
+            document.getElementById('deliveryFee').textContent = '₸0.00';
+            updateTotal();
+        });
+
+        // Payment method selection
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Update quantity
+        function updateQty(btn, change) {
+            const cartItem = btn.closest('.cart-item');
+            const qtyDisplay = cartItem.querySelector('.qty-display');
+            let qty = parseInt(qtyDisplay.textContent);
+            
+            qty += change;
+            if (qty < 1) qty = 1;
+            if (qty > 10) qty = 10;
+            
+            qtyDisplay.textContent = qty;
+            cartItem.setAttribute('data-qty', qty);
+            updateTotal();
+        }
+
+        // Remove item
+        function removeItem(btn) {
+            if (confirm('Remove this item from cart?')) {
+                btn.closest('.cart-item').remove();
+                updateTotal();
+                updateItemCount();
+            }
+        }
+
+        // Update item count
+        function updateItemCount() {
+            const items = document.querySelectorAll('.cart-item');
+            let totalItems = 0;
+            items.forEach(item => {
+                totalItems += parseInt(item.getAttribute('data-qty'));
+            });
+            document.getElementById('itemCount').textContent = totalItems;
+        }
+
+        // Calculate and update total
+        function updateTotal() {
+            const items = document.querySelectorAll('.cart-item');
+            let subtotal = 0;
+
+            items.forEach(item => {
+                const price = parseFloat(item.getAttribute('data-price'));
+                const qty = parseInt(item.getAttribute('data-qty'));
+                subtotal += price * qty;
+            });
+
+            const deliveryFee = isDelivery ? 5000 : 0;
+            const tax = subtotal * 0.08;
+            const total = subtotal + deliveryFee + tax;
+
+            document.getElementById('subtotal').textContent = '₸' + subtotal.toFixed(2);
+            document.getElementById('deliveryFee').textContent = '₸' + deliveryFee.toFixed(2);
+            document.getElementById('tax').textContent = '₸' + tax.toFixed(2);
+            document.getElementById('total').textContent = '₸' + total.toFixed(2);
+            document.getElementById('finalTotal').textContent = total.toFixed(2);
+        }
+
+        // Form submission
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const phone = document.getElementById('phone').value;
+            const total = document.getElementById('finalTotal').textContent;
+            const itemCount = document.getElementById('itemCount').textContent;
+
+            const confirmMessage = `
+Order Confirmed! 🎉
+
+Items: ${itemCount}
+Total: ₸${total}
+${isDelivery ? `Delivery to: ${address}, ${city}` : 'Pickup at restaurant'}
+Phone: ${phone}
+
+Estimated ${isDelivery ? 'delivery' : 'ready'} time: 30-45 minutes
+Order tracking link will be sent to your phone.
+
+Thank you for your order!
+            `;
+
+            alert(confirmMessage);
+        });
+
+        // Initial calculations
+        updateTotal();
+        updateItemCount();
+    </script>
+</body>
+</html>

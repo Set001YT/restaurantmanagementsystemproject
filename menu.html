@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Mangilik As</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f9cf15;
+            --secondary-color: #2c3e50;
+            --accent-color: #1294a8;
+            --light-bg: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--secondary-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgb(0,0,0);
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+
+        .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgb(58, 106, 133), rgb(207, 189, 25)) center/cover;
+            padding: 5rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 3rem 0;
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            text-align: center;
+            margin-bottom: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .filter-btn {
+            background-color: #fff;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Search Bar */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .search-input {
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Menu Items Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .menu-item-content {
+            padding: 1.5rem;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item h4 {
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .price-tag {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ingredients {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #f9cf15;;
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgb(0,0,0);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .cart-summary:hover {
+            transform: scale(1.05);
+        }
+
+        .cart-count {
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Table for Pricing */
+        .pricing-table {
+            margin: 3rem 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgb(0,0,0);
+        }
+
+        .pricing-table table {
+            width: 100%;
+        }
+
+        .pricing-table th {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .pricing-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pricing-table tr:hover {
+            background-color: var(--light-bg);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a252f;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-buttons {
+                flex-direction: column;
+            }
+
+            .cart-summary {
+                bottom: 10px;
+                right: 10px;
+                padding: 0.8rem 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .menu-item-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .price-tag {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Mangilik As</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="menu.html">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reservations.html">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="order.html">Order Online</a></li>
+                    <li class="nav-item"><a class="nav-link" href="staff.html">Staff</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Our Menu</h1>
+            <p>Explore our delicious selection of dishes</p>
+        </div>
+    </header>
+
+    <!-- Menu Section -->
+    <section class="menu-section">
+        <div class="container">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search for dishes...">
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="all">All Items</button>
+                <button class="filter-btn" data-category="appetizers">Appetizers</button>
+                <button class="filter-btn" data-category="mains">Main Courses</button>
+                <button class="filter-btn" data-category="desserts">Desserts</button>
+                <button class="filter-btn" data-category="drinks">Drinks</button>
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="menu-grid" id="menuGrid">
+                <!-- Appetizers -->
+                <div class="menu-item" data-category="appetizers" data-name="Kazy">
+                    <img src="kazy.jpeg" alt="Kazy">
+                    <div class="menu-item-content"> 
+                        <span class="category-badge">Appetizer</span>
+                        <div class="menu-item-header">
+                            <h4>Kazy</h4>
+                            <span class="price-tag">3500 ₸</span>
+                        </div>
+                        <p class="description">Fragrant horse meat in a casing of tradition and respect for the guest</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Kazy', 3500.0)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="appetizers" data-name="kuyrdak">
+                    <img src="kuyrdak.jpg" alt="Kuyrdak">
+                    <div class="menu-item-content">
+                        <span class="category-badge">Appetizer</span>
+                        <div class="menu-item-header">
+                            <h4>Kuyrdak</h4>
+                            <span class="price-tag">4200 ₸</span>
+                        </div>
+                        <p class="description">A roast where simple ingredients are transformed into the soul of a Kazakh hearth</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Kuyrdak', 4200.0)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="appetizers" data-name="soup">
+                    <img src="sorpa.jpeg" alt="Soup">
+                    <div class="menu-item-content">
+                        <span class="category-badge">Appetizer</span>
+                        <div class="menu-item-header">
+                            <h4>Sorpa</h4>
+                            <span class="price-tag">1800 ₸</span>
+                        </div>
+                        <p class="description">A clear broth carrying the warmth of the hand that served the cup to the first guest</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Sorpa', 1800.0)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Main Courses -->
+                <div class="menu-item" data-category="mains" data-name="Besh">
+                    <img src="besh.jpg" alt="Besh">
+                    <div class="menu-item-content">
+                        <span class="category-badge">Main Course</span>
+                        <div class="menu-item-header">
+                            <h4>Kazakh Et</h4>
+                            <span class="price-tag">31000 ₸</span>
+                        </div>
+                        <p class="ingredients">>A dish in which the taste of meat and dough tells the story of nomads who gathered their clan to the sounds of the dombra</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Kazakh Et', 31000.0)">Add to Cart</button>
+                    </div>
+                </div>
+
+
+                <div class="menu-item" data-category="mains" data-name="Manti">
+                    <img src="manti.jpg" alt="Manti">
+                    <div class="menu-item-content">
+                        <span class="category-badge">Main Course</span>
+                        <div class="menu-item-header">
+                            <h4>Manti</h4>
+                            <span class="price-tag">2700 ₸</span>
+                        </div>
+                        <p class="description">Thin dough concealing aromatic meat, like the secret of home comfort in a cloud of steam.</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Manti', 2700.0)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="mains" data-name="Lagman">
+                    <img src="lagman.jpeg" alt="Lagman">
+                    <div class="menu-item-content">
+                        <span class="category-badge">Main Course</span>
+                        <div class="menu-item-header">
+                            <h4>Lagman</h4>
+                            <span class="price-tag">2500 ₸</span>
+                        </div>
+                        <p class="description">Stretchy noodles, spicy sauce and meat – the rhythm of an oriental bazaar in one plate</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Lagman', 2500.0)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Desserts -->
+                <div class="menu-item" data-category="desserts" data-name="chak-chak">
+                    <img src="chakchak.jpg" alt="Chak-chak">
+                    <div class="menu-item-content">
+                        <span class="category-badge">Dessert</span>
+                        <div class="menu-item-header">
+                            <h4>Chak-chak</h4>
+                            <span class="price-tag">850 ₸</span>
+                        </div>
+                        <p class="description">Golden drops of dough, glued together with honey and children's holiday laughter</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Chak-chak', 850.0)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="desserts" data-name="Balkaimak">
+                    <img src="balkaimak.jpeg" alt="Balkaimak">
+                    <div class="menu-item-content">
+                        <span class="category-badge">Dessert</span>
+                        <div class="menu-item-header">
+                            <h4>Balkaimak</h4>
+                            <span class="price-tag">1060 ₸</span>
+                        </div>
+                        <p class="description">The warm tenderness of cream and honey, like a sunset in a cup.</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Balkaimak', 1060.0)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Drinks -->
+                <div class="menu-item" data-category="drinks" data-name="airan">
+                    <img src="airan.jpg" alt="Airan">
+                    <div class="menu-item-content">
+                        <span class="category-badge">Drink</span>
+                        <div class="menu-item-header">
+                            <h4>Airan</h4>
+                            <span class="price-tag">630 ₸</span>
+                        </div>
+                        <p class="description">The coolness of a summer afternoon, quenching thirst and calming the heart</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Airan', 630.0)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="drinks" data-name="Kumiss">
+                    <img src="Kumiss.png" alt="Kumiss">
+                    <div class="menu-item-content">
+                        <span class="category-badge">Drink</span>
+                        <div class="menu-item-header">
+                            <h4>Kumiss</h4>
+                            <span class="price-tag">1700 ₸</span>
+                        </div>
+                        <p class="description">The foamy freshness of mare's milk with an aftertaste of wind and freedom</p>
+                        <button class="add-to-cart-btn" onclick="addToCart('Kumiss', 1700.0)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Comparison Table -->
+            <div class="pricing-table mt-5">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Items Available</th>
+                            <th>Price Range</th>
+                            <th>Popular Choice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Appetizers</strong></td>
+                            <td>8 items</td>
+                            <td>1800 ₸ - 4200 ₸</td>
+                            <td>Kazy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Main Courses</strong></td>
+                            <td>12 items</td>
+                            <td>2500 ₸ - 31000 ₸</td>
+                            <td>Kazakh Et</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Desserts</strong></td>
+                            <td>6 items</td>
+                            <td>850 ₸ - 1060 ₸</td>
+                            <td>Chak-chak</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Drinks</strong></td>
+                            <td>15 items</td>
+                            <td>630 ₸ - 1700 ₸</td>
+                            <td>Airan</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Summary -->
+    <div class="cart-summary" onclick="window.location.href='order.html'">
+        🛒 Cart <span class="cart-count" id="cartCount">0</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>📍 29 Satpayev St., Astana, Kazakhstan</p>
+                    <p>📞 +7 (777) 462-7312</p>
+                    <p>✉️ info@mangilikas.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Opening Hours</h4>
+                    <p>Monday - Sunday</p>
+                    <p>11:00 AM - 11:00 PM</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">📷</a>
+                        <a href="#">🐦</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-3 border-top border-secondary">
+                <p>&copy; 2025 Mangilik As. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let cartItems = 0;
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const category = button.getAttribute('data-category');
+
+                menuItems.forEach(item => {
+                    if (category === 'all' || item.getAttribute('data-category') === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+
+            menuItems.forEach(item => {
+                const itemName = item.getAttribute('data-name');
+                if (itemName.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Add to cart functionality
+        function addToCart(itemName, price) {
+            cartItems++;
+            document.getElementById('cartCount').textContent = cartItems;
+            alert(`${itemName} added to cart! (₸${price})`);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & About - Mangilik As</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f9cf15;
+            --secondary-color: #2c3e50;
+            --accent-color: #1294a8;
+            --light-bg: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--secondary-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgb(0,0,0);
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+
+        .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgb(58, 106, 133), rgb(207, 189, 25)) center/cover;
+            padding: 5rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 1rem auto;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgb(0,0,0);
+        }
+
+        /* Chef Team Section */
+        .team-section {
+            padding: 4rem 0;
+            background: var(--light-bg);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgb(0,0,0);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-member img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .team-info {
+            padding: 1.5rem;
+        }
+
+        .team-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-role {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .team-bio {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-card {
+            display: flex;
+            align-items: start;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: var(--light-bg);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            background: #fff;
+            box-shadow: 0 5px 15px rgb(0,0,0);
+        }
+
+        .info-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .info-details h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-details p {
+            margin: 0.3rem 0;
+            color: #666;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--light-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgb(0,0,0);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #f9cf15;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px #f9cf15;
+        }
+
+        /* Map Section */
+        .map-section {
+            padding: 4rem 0;
+            background: var(--light-bg);
+        }
+
+        .map-container {
+            margin-top: 2rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgb(0,0,0);
+            height: 450px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .map-placeholder {
+            text-align: center;
+        }
+
+        .map-placeholder::before {
+            content: '📍';
+            display: block;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .review-card {
+            background: var(--light-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgb(0,0,0);
+            transition: transform 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-name {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .stars {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+
+        .review-text {
+            color: #666;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .review-date {
+            color: #999;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .overall-rating {
+            text-align: center;
+            padding: 3rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            border-radius: 15px;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .rating-number {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-stars {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Social Media Section */
+        .social-section {
+            padding: 4rem 0;
+            background: var(--secondary-color);
+            color: white;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a252f;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .rating-number {
+                font-size: 3rem;
+            }
+
+            .social-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"> Mangilik As</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reservations.html">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="order.html">Order Online</a></li>
+                    <li class="nav-item"><a class="nav-link" href="staff.html">Staff</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>About Us & Contact</h1>
+            <p>Learn more about our story and get in touch</p>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <h2 class="section-title">Our Story</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Founded in 2015, Delicious Bites has been serving exceptional cuisine to the heart of Astana for over 10 years. What started as a small family-owned restaurant has grown into one of the city's most beloved dining destinations.</p>
+                    <p>Our philosophy is simple: use only the freshest, locally-sourced ingredients to create dishes that not only satisfy your hunger but also touch your soul. Every plate that leaves our kitchen is a testament to our commitment to kazakh culinary excellence.</p>
+                    <p>We believe that dining is an experience, not just a meal. From the moment you walk through our doors, our team is dedicated to making your visit memorable, whether you're celebrating a special occasion or simply enjoying a casual dinner with friends.</p>
+                </div>
+                <div class="about-image">
+                    <img src="interior.jpeg" alt="Restaurant Interior">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chef Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Culinary Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="iskander.jpg" alt="Chef">
+                    <div class="team-info">
+                        <div class="team-name">Chef Iskander Ismagulov</div>
+                        <div class="team-role">Executive Chef</div>
+                        <p class="team-bio">With 20 years of experience in Italian cuisine, Chef Marco brings authentic flavors and innovative techniques to every dish.</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img src="zhangir.jpg" alt="Chef">
+                    <div class="team-info">
+                        <div class="team-name">Chef Zhangir Sailaubek</div>
+                        <div class="team-role">Sous Chef</div>
+                        <p class="team-bio">Trained in Paris, Chef Antoine brings French culinary artistry and precision to our kitchen.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-grid">
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <div class="info-card">
+                        <div class="info-icon">📍</div>
+                        <div class="info-details">
+                            <h3>Location</h3>
+                            <p>29 Satpayev St.</p>
+                            <p>Astana, Kazakhstan</p>
+                            <p>010000</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">📞</div>
+                        <div class="info-details">
+                            <h3>Phone</h3>
+                            <p>Main: +7 (777) 462-7312</p>
+                            <p>Reservations: +7 (777) 462-7313</p>
+                            <p>Catering: +7 (777) 462-7314</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">⏰</div>
+                        <div class="info-details">
+                            <h3>Opening Hours</h3>
+                            <p><strong>Monday - Sunday:</strong> 11:00 AM - 11:00 PM</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">✉️</div>
+                        <div class="info-details">
+                            <h3>Email</h3>
+                            <p>General: info@mangilikas.com</p>
+                            <p>Events: events@mangilikas.com</p>
+                            <p>Careers: careers@mangilikas.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form">
+                    <h3 style="color: var(--secondary-color); margin-bottom: 1.5rem;">Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" class="form-control" placeholder="John Doe" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="+7 (777) 123-4567">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" class="form-control" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="reservation">Reservation Question</option>
+                                <option value="feedback">Feedback</option>
+                                <option value="catering">Catering Services</option>
+                                <option value="careers">Careers</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" class="form-control" rows="5" placeholder="How can we help you?" required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Send Message 📧</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2 class="section-title">Find Us</h2>
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <div><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2503.2434722184853!2d71.47259037644689!3d51.14086117173223!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4245815e5f803add%3A0x43b868c2f8e40c7f!2z0YPQuy4g0KHQsNGC0L_QsNC10LLQsCAyOSwg0JDRgdGC0LDQvdCwIDAxMDAwMA!5e0!3m2!1sru!2skz!4v1760028749359!5m2!1sru!2skz" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                    <div style="font-size: 1rem; margin-top: 1rem;">29 Satpayev St., Astana, Kazakhstan</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="container">
+            <h2 class="section-title">What Our Customers Say</h2>
+            
+            <div class="overall-rating">
+                <div class="rating-number">4.8</div>
+                <div class="rating-stars">★★★★★</div>
+                <div>Based on 487 reviews</div>
+            </div>
+
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Aruzhan Saparbekova</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+                    <p class="review-text">"Absolutely amazing food and service! The kuyrdak is to die for. The ambiance is perfect for a delicious dinner. Will definitely be back!"</p>
+                    <p class="review-date">2 weeks ago</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Yerlan Nurtazin</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+                    <p class="review-text">"Best restaurant in Astana! Every dish we tried was exceptional. The staff is incredibly friendly and attentive. Highly recommend Kazakh Et!"</p>
+                    <p class="review-date">3 weeks ago</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Madina Tulegenova</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+                    <p class="review-text">"Perfect spot for special occasions! We celebrated our anniversary here and everything was flawless. The chef's special was outstanding!"</p>
+                    <p class="review-date">1 month ago</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Nurken Alpysbayev</span>
+                        <span class="stars">★★★★☆</span>
+                    </div>
+                    <p class="review-text">"Great food and atmosphere. Only minor complaint was the wait time, but the quality of the dishes made up for it. The kazy was incredible!"</p>
+                    <p class="review-date">1 month ago</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Aigerim Yesenova</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+                    <p class="review-text">"I've been coming here for years and it never disappoints. The consistency in quality and service is remarkable. A true gem in Astana!"</p>
+                    <p class="review-date">2 months ago</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Aldiyar Kuanyshev</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+                    <p class="review-text">"Fantastic dining experience from start to finish. The airan selection is excellent and the desserts are heavenly. Can't wait to return!"</p>
+                    <p class="review-date">2 months ago</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="social-section">
+        <div class="container">
+            <h2 style="margin-bottom: 1rem;">Follow Us on Social Media</h2>
+            <p>Stay updated with our latest dishes, events, and special offers!</p>
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <div class="social-icon">📘</div>
+                    <div>Facebook</div>
+                    <small>12.5K followers</small>
+                </a>
+                <a href="#" class="social-link">
+                    <div class="social-icon">📷</div>
+                    <div>Instagram</div>
+                    <small>18.2K followers</small>
+                </a>
+                <a href="#" class="social-link">
+                    <div class="social-icon">🐦</div>
+                    <div>Twitter</div>
+                    <small>8.7K followers</small>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>📍 29 Satpayev St., Astana, Kazakhstan</p>
+                    <p>📞 +7 (777) 462-7312</p>
+                    <p>✉️ info@mangilikas.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Opening Hours</h4>
+                    <p>Monday - Sunday</p>
+                    <p>11:00 AM - 11:00 PM</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <p><a href="menu.html" style="color: white; text-decoration: none;">Menu</a></p>
+                    <p><a href="reservations.html" style="color: white; text-decoration: none;">Reservations</a></p>
+                    <p><a href="order.html" style="color: white; text-decoration: none;">Order Online</a></p>
+                </div>
+            </div>
+            <div class="text-center pt-3 border-top border-secondary">
+                <p>&copy; 2025 Mangilik As. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Contact Form Submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            const confirmMessage = `
+Thank you, ${name}! 🎉
+
+Your message has been received. We'll get back to you within 24 hours.
+
+Message Details:
+Email: ${email}
+${phone ? 'Phone: ' + phone : ''}
+Subject: ${subject}
+
+We appreciate you reaching out to Delicious Bites!
+            `;
+
+            alert(confirmMessage);
+            this.reset();
+        });
+    </script>
+</body>
+</html>
