@@ -75,7 +75,7 @@ Used photos from Unsplash to keep it looking professional without copyright issu
 Just open `index.html` in any browser. All the CSS is inline so no external files needed. Bootstrap and other resources load from CDN.
 
 ## Live Demo
-[Will add GitHub Pages or Netlify link here after deployment]
+https://restaurantmanagementsystemproject.netlify.app/
 
 ## Project Structure
 mangilik-as/
@@ -121,4 +121,4 @@ But for a midterm project focusing on HTML/CSS/Bootstrap, I think it covers ever
 ✓ Clean, indented code
 
 Made with ☕ and lots of debugging for Web Technologies Course
-[Will add GitHub Pages or Netlify link here after deployment]
+https://restaurantmanagementsystemproject.netlify.app/
