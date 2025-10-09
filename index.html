@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mangilik As - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f9cf15;
+            --secondary-color: #2c3e50;
+            --accent-color: #1294a8;
+            --light-bg: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--secondary-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgb(0,0,0);
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+
+        .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgb(58, 106, 133), rgb(207, 189, 25)) center/cover;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-primary-custom {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #f9cf15;
+            transform: scale(1.05);
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            padding: 4rem 0;
+            background-color: var(--light-bg);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 1rem auto;
+        }
+
+        /* Featured Dishes */
+        .featured-dishes {
+            padding: 4rem 0;
+        }
+
+        .dish-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgb(0,0,0);
+            transition: transform 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .dish-card img {
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .price {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Reviews Carousel */
+        .reviews-section {
+            padding: 4rem 0;
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .review-card {
+            background-color: rgb(116, 116, 116);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1rem;
+        }
+
+        .stars {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a252f;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+
+            .hero {
+                height: 400px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"> Mangilik As</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reservations.html">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="order.html">Order Online</a></li>
+                    <li class="nav-item"><a class="nav-link" href="staff.html">Staff</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Mangilik As</h1>
+            <p>Experience Kazakh Culinary Excellence</p>
+            <a href="reservations.html" class="btn btn-primary-custom">Book a Table</a>
+        </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <div class="container">
+            <h2 class="section-title">Our Story</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <img src="interior.jpeg" class="img-fluid rounded" alt="Restaurant Interior">
+                </div>
+                <div class="col-lg-6">
+                    <p class="lead">For over 10 years, Mangilik As has been serving exceptional kazakh cuisine in the heart of the city. Our commitment to quality ingredients, traditional recipes, and outstanding service has made us a favorite destination for food lovers.</p>
+                    <p>We believe that dining is not just about food—it's about creating memorable experiences. Our talented chefs craft each dish with passion and precision, ensuring every visit is special.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Dishes -->
+    <section class="featured-dishes">
+        <div class="container">
+            <h2 class="section-title">Featured Dishes</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card dish-card">
+                        <img src="besh.jpg" class="card-img-top" alt="Kazakh Et">
+                        <div class="card-body">
+                            <h5 class="card-title">Kazakh Et</h5>
+                            <p class="card-text">A dish in which the taste of meat and dough tells the story of nomads who gathered their clan to the sounds of the dombra </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price">31000 ₸</span>
+                                <a href="menu.html" class="btn btn-sm btn-outline-primary">View Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card dish-card">
+                        <img src="kazy.jpeg" class="card-img-top" alt="Kazy">
+                        <div class="card-body">
+                            <h5 class="card-title">Kazy</h5>
+                            <p class="card-text">Fragrant horse meat in a casing of tradition and respect for the guest</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price"> 3500 ₸</span>
+                                <a href="menu.html" class="btn btn-sm btn-outline-primary">View Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card dish-card">
+                        <img src="kuyrdak.jpg" class="card-img-top" alt="Kuyrdak">
+                        <div class="card-body">
+                            <h5 class="card-title">Kuyrdak</h5>
+                            <p class="card-text">A roast where simple ingredients are transformed into the soul of a Kazakh hearth.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price">4200 ₸</span>
+                                <a href="menu.html" class="btn btn-sm btn-outline-primary">View Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="container">
+            <h2 class="section-title text-white">What Our Customers Say</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Absolutely amazing kazakh food and service! The kuyrdak is to die for. Will definitely be back!"</p>
+                        <strong>- Rosa Rymbaeva</strong>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Best restaurant in Astana! The atmosphere is cozy and the staff is incredibly friendly."</p>
+                        <strong>- Nurlan Koyanbayev</strong>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Every dish we tried was exceptional. The chef really knows their craft. Highly recommend!"</p>
+                        <strong>- Dimash Kudaibergen</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>📍 29 Satpayev St., Astana, Kazakhstan</p>
+                    <p>📞 +7 (777) 462-7312</p>
+                    <p>✉️ info@mangilikas.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Opening Hours</h4>
+                    <p>Monday - Sunday</p>
+                    <p>11:00 AM - 11:00 PM</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">📷</a>
+                        <a href="#">🐦</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-3 border-top border-secondary">
+                <p>&copy; 2025 Mangilik As. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
