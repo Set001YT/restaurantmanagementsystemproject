@@ -478,7 +478,7 @@
                             <img src="besh.jpg" alt="Kazakh Et" class="item-image">
                             <div class="item-details">
                                 <div class="item-name">Kazakh Et</div>
-                                <div class="item-description">A dish in which the taste of meat and dough tells the story of nomads who gathered their clan to the sounds of the dombra</div>
+                                <div class="item-description">A nomadic-inspired dish that combines meat and dough, often celebrated with dombra music.</div>
                                 <div class="item-price">31000 ₸</div>
                                 <div class="customization">
                                     <label>Size:</label>
@@ -536,7 +536,7 @@
                                 <div class="item-description">The warm tenderness of cream and honey, like a sunset in a cup.</div>
                                 <div class="item-price">1060 ₸</div>
                 
-                                </div>
+                                
                             </div>
                             <div>
                                 <div class="quantity-controls">
@@ -557,7 +557,9 @@
                                 <div class="item-name">Airan</div>
                                 <div class="item-description">The coolness of a summer afternoon, quenching thirst and calming the heart</div>
                                 <div class="item-price">630 ₸</div>
+
                             </div>
+
                             <div>
                                 <div class="quantity-controls">
                                     <button class="qty-btn" onclick="updateQty(this, -1)">-</button>
@@ -674,7 +676,7 @@
             isDelivery = true;
             this.classList.add('active');
             document.getElementById('pickupBtn').classList.remove('active');
-            document.getElementById('deliveryFee').textContent = '₸0';
+            document.getElementById('deliveryFee').textContent = '₸5000.00';
             updateTotal();
         });
 
@@ -740,6 +742,16 @@
                 subtotal += price * qty;
             });
 
+            // FIX: Если корзина пустая, все суммы = 0
+            if (subtotal === 0) {
+                document.getElementById('subtotal').textContent = '₸0.00';
+                document.getElementById('deliveryFee').textContent = '₸0.00';
+                document.getElementById('tax').textContent = '₸0.00';
+                document.getElementById('total').textContent = '₸0.00';
+                document.getElementById('finalTotal').textContent = '0.00';
+                return; // Выходим из функции
+            }
+
             const deliveryFee = isDelivery ? 5000 : 0;
             const tax = subtotal * 0.08;
             const total = subtotal + deliveryFee + tax;
@@ -761,6 +773,12 @@
             const total = document.getElementById('finalTotal').textContent;
             const itemCount = document.getElementById('itemCount').textContent;
 
+            // FIX: Проверяем, что корзина не пустая
+            if (parseFloat(total) === 0) {
+                alert('Your cart is empty! Please add items before placing an order.');
+                return;
+            }
+
             const confirmMessage = `
 Order Confirmed! 🎉
 
@@ -781,6 +799,6 @@ Thank you for your order!
         // Initial calculations
         updateTotal();
         updateItemCount();
-    </script>
+</script>
 </body>
 </html>
